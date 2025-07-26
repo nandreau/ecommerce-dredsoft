@@ -11,7 +11,8 @@ const ProductCard = ({ product, onAddToCart }) => {
     variants.length > 0 ? variants[0] : null
   );
 
-  const handleAddClick = (e) => {
+   const handleAddClick = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     onAddToCart({ ...product, selectedVariant });
   };
@@ -66,7 +67,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           )}
 
           <button
-            className={`btn ${inStock ? "btn-primary" : "btn-secondary"} mt-auto`}
+            className={`btn ${inStock ? "btn-dark" : "btn-secondary"} mt-auto`}
             onClick={handleAddClick}
             disabled={!inStock}
           >
