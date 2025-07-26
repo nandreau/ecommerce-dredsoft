@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 /**
  * ProductCard Component
  */
+const defaultSizeVariants = ["S", "M", "L", "XL"];
+
 const ProductCard = ({ product, onAddToCart }) => {
   const { id, name, image, price, variants = [], inStock = true } = product;
-  const [selectedVariant, setSelectedVariant] = useState(
-    variants.length > 0 ? variants[0] : null
-  );
+  const sizeOptions = variants.length > 0 ? variants : defaultSizeVariants;
+  const [selectedVariant, setSelectedVariant] = useState(sizeOptions[0]);
 
-   const handleAddClick = (e) => {
+  const handleAddClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     onAddToCart({ ...product, selectedVariant });
@@ -33,7 +34,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             className="card-title mb-2"
             style={{
               display: '-webkit-box',
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -45,29 +46,37 @@ const ProductCard = ({ product, onAddToCart }) => {
             {name}
           </h2>
 
-          <div className="mb-3">
+          <div className="mt-auto mb-2">
             <span style={{ fontSize: '0.75rem', fontWeight: 600, position:'relative', top:'-0.6rem' }}>$</span>
             <span style={{ fontSize: '1.75rem', fontWeight: 600 }}>{intPart}</span>
             <span style={{ fontSize: '0.75rem', fontWeight: 600, position:'relative', top:'-0.6rem' }}>{decPart}</span>
           </div>
 
-          {variants.length > 0 && (
-            <select
-              className="form-select mb-3"
-              value={selectedVariant}
-              onChange={(e) => setSelectedVariant(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {variants.map((variant) => (
-                <option key={variant} value={variant}>
+          {/* Variant buttons: smaller and in black, prevent navigation on click */}
+          {sizeOptions.length > 0 && (
+            <div className="d-flex gap-2 mb-3">
+              {sizeOptions.map((variant) => (
+                <button
+                  key={variant}
+                  type="button"
+                  className={
+                    `btn ${selectedVariant === variant ? 'btn-dark' : 'btn-outline-dark'} rounded-circle`
+                  }
+                  style={{ width: '30px', height: '30px', padding: 0, fontSize: '0.75rem', lineHeight: '30px' }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedVariant(variant);
+                  }}
+                >
                   {variant}
-                </option>
+                </button>
               ))}
-            </select>
+            </div>
           )}
 
           <button
-            className={`btn ${inStock ? "btn-dark" : "btn-secondary"} mt-auto`}
+            className={`btn ${inStock ? "btn-dark" : "btn-secondary"}`}
             onClick={handleAddClick}
             disabled={!inStock}
           >
