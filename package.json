@@ -26,6 +26,7 @@
     "express-fileupload": "^1.5.1",
     "express-validator": "^6.8.1",
     "font-awesome": "^4.7.0",
+    "gh-pages": "^6.3.0",
     "history": "5.0.0",
     "js-sha3": "0.8.0",
     "jsonwebtoken": "^8.5.1",
@@ -52,14 +53,17 @@
     "web-vitals": "^2.1.4",
     "web3": "^1.3.3"
   },
+  "homepage": "https://nandreau.github.io/ecommerce-dredsoft",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node ./api/server.js",
     "client": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
-    "test": "react-scripts eject",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
